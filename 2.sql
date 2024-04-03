@@ -22,15 +22,15 @@ insert into auto_sal values(10000, 'Краснодар', 'ул.Ставропо�
 create table rental
 (id_va number(10),
 id_arend number(10) references renter(id_arend),
-id_s references auto_sal(id_s),
+id_s number(5) references auto_sal(id_s),
 id_a number(10) references automob(id_a),
 date_v date not null,
 return_date date not null,
 returned_date date,
 fine_a number(10));
 
-create table renter
-(id_arend number(10),
+create table arendator
+(id_arend number(10) primary key,
 name_arend varchar(25) not null,
 surname_a varchar(25) not null,
 birthday_a date,
