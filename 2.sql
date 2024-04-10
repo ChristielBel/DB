@@ -16,7 +16,18 @@ alter table auto_sal modify (street varchar2(50));
 alter table automob modify (colour not null, mark_a not null, country_a not null);
 
 alter table auto_sal add constraint chk_c check(REGEXP_LIKE(city, '^[А-Я]') and substr(city,1,1)=upper(substr(city,1,1))and substr(city,2)=lower(substr(city,2)));
+
 insert into auto_sal values(10000, 'Краснодар', 'ул.Ставропольская');
+insert into auto_sal values(10001, 'Краснодар','ул.Школьная');
+insert into auto_sal values(10002, 'Краснодар','ул.Северная');
+insert into auto_sal values(10003, 'Краснодар','ул.Красная');
+insert into auto_sal values(10004, 'Краснодар','ул.Уральская');
+
+insert into automob values(1,10000,'BMW', 'Германия', 'Синий');
+insert into automob values(2,10004, 'FORD', 'Америка', 'Голубой');
+insert into automob values(3,10002, 'AUDI', 'Германия', 'Зеленый');
+insert into automob values(4,10003, 'CHERY', 'Китай', 'Голубой');
+insert into automob values(5,10001, 'LOTUS', 'Англия', 'Серебристый');
 
 create table arendator
 (id_arend number(10) primary key,
@@ -27,7 +38,12 @@ addres_a varchar2(25),
 telephone_a varchar2(25) not null
 );
 alter table arendator add constraint phone check(substr(telephone_a,1,1)='+' and REGEXP_LIKE(telephone_a, '^\+[0-9]{12,15}$'));
-insert into arendator values(10001,'Олег','Иванов',TO_DATE('2022-09-15', 'YYYY-MM-DD'),'ул.Красная','+791234567899');
+
+insert into arendator values(100,'Олег','Иванов',TO_DATE('1989-09-15', 'YYYY-MM-DD'),'ул.Красная','+791234567899');
+insert into arendator values(101,'Петя','Петров',TO_DATE('2000-06-17', 'YYYY-MM-DD'),'ул.Уральская','+7912345657899');
+insert into arendator values(102,'Стас','Петров',TO_DATE('2002-12-15', 'YYYY-MM-DD'),'ул.Красная','+79134567899');
+insert into arendator values(103,'Людмила','Иванова',TO_DATE('1990-10-09', 'YYYY-MM-DD'),'ул.Школьная','+765234567899');
+insert into arendator values(104,'Дмитрий','Иванов',TO_DATE('1987-09-19', 'YYYY-MM-DD'),'ул.Северная','+791234097899');
 
 create table rental_avto
 (id_va number(10) primary key,
@@ -38,6 +54,12 @@ date_v date not null,
 return_date date not null,
 returned_date date,
 fine_a number(10));
+
+insert into rental_avto values(100, 100,1,10000,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'));
+insert into rental_avto values(101,104,5,10001,TO_DATE('2024-02-19', 'YYYY-MM-DD'),TO_DATE('2024-05-19', 'YYYY-MM-DD'),TO_DATE('2024-05-20', 'YYYY-MM-DD'), 2000);
+insert into rental_avto values(102,103,3,10003,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'));
+insert into rental_avto values(103,102,2,10004,TO_DATE('2024-02-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'));
+insert into rental_avto values(104,101,4,10001,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-04-01', 'YYYY-MM-DD'), 5000);
 
 drop table auto_sal;
 drop table automob;
