@@ -41,7 +41,7 @@ alter table arendator add constraint phone check(substr(telephone_a,1,1)='+' and
 
 insert into arendator values(100,'Олег','Иванов',TO_DATE('1989-09-15', 'YYYY-MM-DD'),'ул.Красная','+791234567899');
 insert into arendator values(101,'Петя','Петров',TO_DATE('2000-06-17', 'YYYY-MM-DD'),'ул.Уральская','+7912345657899');
-insert into arendator values(102,'Стас','Петров',TO_DATE('2002-12-15', 'YYYY-MM-DD'),'ул.Красная','+79134567899');
+insert into arendator values(102,'Стас','Петров',TO_DATE('2002-12-15', 'YYYY-MM-DD'),'ул.Красная','+7913456987899');
 insert into arendator values(103,'Людмила','Иванова',TO_DATE('1990-10-09', 'YYYY-MM-DD'),'ул.Школьная','+765234567899');
 insert into arendator values(104,'Дмитрий','Иванов',TO_DATE('1987-09-19', 'YYYY-MM-DD'),'ул.Северная','+791234097899');
 
@@ -55,11 +55,11 @@ return_date date not null,
 returned_date date,
 fine_a number(10));
 
-insert into rental_avto values(100, 100,1,10000,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'));
-insert into rental_avto values(101,104,5,10001,TO_DATE('2024-02-19', 'YYYY-MM-DD'),TO_DATE('2024-05-19', 'YYYY-MM-DD'),TO_DATE('2024-05-20', 'YYYY-MM-DD'), 2000);
-insert into rental_avto values(102,103,3,10003,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'));
-insert into rental_avto values(103,102,2,10004,TO_DATE('2024-02-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'));
-insert into rental_avto values(104,101,4,10001,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-04-01', 'YYYY-MM-DD'), 5000);
+insert into rental_avto values(1007, 100,10000, 1,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'),0);
+insert into rental_avto values(1018,104,10001, 5,TO_DATE('2024-02-19', 'YYYY-MM-DD'),TO_DATE('2024-05-19', 'YYYY-MM-DD'),TO_DATE('2024-05-20', 'YYYY-MM-DD'), 2000);
+insert into rental_avto values(1025,103,10003,3,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'),0);
+insert into rental_avto values(1038,102,10004,2,TO_DATE('2024-02-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-03-01', 'YYYY-MM-DD'),0);
+insert into rental_avto values(1045,101,10001,4,TO_DATE('2024-01-12', 'YYYY-MM-DD'),TO_DATE('2024-03-12', 'YYYY-MM-DD'),TO_DATE('2024-04-01', 'YYYY-MM-DD'), 5000);
 
 drop table auto_sal;
 drop table automob;
