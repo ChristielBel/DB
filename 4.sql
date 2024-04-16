@@ -76,6 +76,13 @@ from employees e
 join jobs j on e.job_id = j.job_id
 join departments d on e.department_id = d.department_id;
 
+--3--
+
+select e.last_name, j.job_title, d.department_name, e.salary
+from employees e
+join jobs j on e.job_id = j.job_id
+join departments d on e.department_id = d.department_id;
+
 --Создайте запрос для вывода фамилий и дат найма всех служащих, нанятых после Davies. (запрос выполнить используя декартово произведение, с использованием данной фамилии).--
 select e.last_name, e.hire_date
 from employees e
