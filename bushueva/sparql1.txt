@@ -115,22 +115,78 @@ WHERE {
 
 
 Список заболеваний, для которых существуют препараты с эффективностью > 0.9 и безопасностью > 0.9:
-
+SELECT DISTINCT ?diseaseName ?drugName ?efficacy ?safety
+WHERE {
+  ?disease a ex:Заболевание ;
+           ex:НазваниеЗаболевания ?diseaseName .
+  ?trial ex:Исследовалась ?disease ;
+         ex:Исследовалось ?drug ;
+         ex:ПоказательЭффективности ?efficacy ;
+         ex:ПоказательБезопасности ?safety .
+  ?drug ex:Название_лекарства ?drugName .
+  FILTER (?efficacy > 0.9 && ?safety > 0.9)
+}
 
 Пациенты, у которых было зарегистрировано более 2 различных заболеваний в медицинских записях:
-
+SELECT ?patientName (COUNT(DISTINCT ?disease) AS ?diseaseCount)
+WHERE {
+  ?patient a ex:Пациент ;
+           ex:ФИО ?patientName .
+  ?record ex:принадлежитПациенту ?patient ;
+          ex:основноеЗаболеваниеПриОбращении ?disease .
+}
+GROUP BY ?patientName
+HAVING (COUNT(DISTINCT ?disease) > 2)
 
 Пациенты, чьи записи о заболеваниях содержат только заболевания "Сердечно-сосудистые" или "Эндокринные":
 
 
 Найти препараты, которые НЕ были назначены ни одному пациенту:
-
+SELECT ?drugName
+WHERE {
+  ?drug a ex:Лекарство ;
+        ex:Название_лекарства ?drugName .
+  MINUS {
+    ?prescription ex:НазначениеЛекарства ?drug .
+  }
+}
 
 Список заболеваний, чьи названия содержат "Артрит" или "Диабет", 
 и для которых средняя эффективность всех назначенных препаратов (согласно клиническим испытаниям) выше 0.8:
-
+SELECT ?diseaseName (AVG(?efficacy) AS ?avgEfficacy)
+WHERE {
+  ?disease a ex:Заболевание ;
+           ex:НазваниеЗаболевания ?diseaseName .
+  FILTER (REGEX(?diseaseName, "Артрит|Диабет", "i"))
+  
+  ?trial ex:Исследовалась ?disease ;
+         ex:ПоказательЭффективности ?efficacy .
+}
+GROUP BY ?diseaseName
+HAVING (AVG(?efficacy) > 0.8)
 
 Средний показатель эффективности для каждого класса препаратов:
-
+SELECT ?pharmGroup (AVG(?efficacy) AS ?avgEfficacy)
+WHERE {
+  ?drug a ex:Лекарство ;
+        ex:ФармакологическаяГруппа ?pharmGroup .
+  ?trial ex:Исследовалось ?drug ;
+         ex:ПоказательЭффективности ?efficacy .
+}
+GROUP BY ?pharmGroup
 
 Среднее количество симптомов, связанных с каждым заболеванием:
+SELECT ?diseaseName (AVG(?symptomCount) AS ?avgSymptoms)
+WHERE {
+  {
+    SELECT ?disease (COUNT(?symptom) AS ?symptomCount)
+    WHERE {
+      ?ds a ex:Заболевание_cимптом ;
+           ex:Заболевание ?disease ;
+           ex:Симптом ?symptom .
+    }
+    GROUP BY ?disease
+  }
+  ?disease ex:НазваниеЗаболевания ?diseaseName .
+}
+GROUP BY ?diseaseName
