@@ -136,10 +136,28 @@ WHERE {
           ex:основноеЗаболеваниеПриОбращении ?disease .
 }
 GROUP BY ?patientName
-HAVING (COUNT(DISTINCT ?disease) > 2)
+HAVING (COUNT(DISTINCT ?disease) >= 2)
 
 Пациенты, чьи записи о заболеваниях содержат только заболевания "Сердечно-сосудистые" или "Эндокринные":
-
+SELECT DISTINCT ?patientName
+WHERE {
+  ?patient a ex:Пациент ;
+           ex:ФИО ?patientName .
+  
+  # Пациент имеет хотя бы одну запись с сердечно-сосудистым или эндокринным заболеванием
+  ?record ex:принадлежитПациенту ?patient ;
+          ex:основноеЗаболеваниеПриОбращении ?disease .
+  ?disease ex:ГруппаЗаболевания ?group .
+  FILTER (?group IN ("Сердечно-сосудистые", "Эндокринные"))
+  
+  # И у пациента нет записей с заболеваниями других групп
+  FILTER NOT EXISTS {
+    ?record2 ex:принадлежитПациенту ?patient ;
+             ex:основноеЗаболеваниеПриОбращении ?disease2 .
+    ?disease2 ex:ГруппаЗаболевания ?group2 .
+    FILTER (?group2 NOT IN ("Сердечно-сосудистые", "Эндокринные"))
+  }
+}
 
 Найти препараты, которые НЕ были назначены ни одному пациенту:
 SELECT ?drugName
@@ -190,3 +208,4 @@ WHERE {
   ?disease ex:НазваниеЗаболевания ?diseaseName .
 }
 GROUP BY ?diseaseName
+
